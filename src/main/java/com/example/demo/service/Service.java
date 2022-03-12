@@ -84,12 +84,18 @@ public class Service {
 			if (patientDao.searchByEmail(patient.getEmail()) == null) {
 				return "Patient Doesn't Exists";
 			}
-			// if patient is new then i update the patient on the basis of their id .
+			// if patient is not new then i update the patient on the basis of their id .
+			// check all the validations
+			String response = validations(patient);
+
+			if (response.equalsIgnoreCase("success")) {
 
 			Patient p = patientDao.searchByEmail(patient.getEmail());
 			patient.setPatientId(p.getPatientId());
 			patientDao.save(patient);
-			return "Patient Successfully Updated";
+			return "Patient Successfully Updated";	
+			}
+			return response;
 
 		} catch (Exception e) {
 			System.out.println(e);
